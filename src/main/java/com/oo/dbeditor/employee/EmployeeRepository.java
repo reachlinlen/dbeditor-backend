@@ -1,8 +1,13 @@
 package com.oo.dbeditor.employee;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
-public interface EmployeeRepository extends CrudRepository<Employee, String> {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
+public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
+	
+	@Query(nativeQuery = true, value="select * from employee limit :limits")
+	public List<Employee> getEmpList(int limits);
 	
 }

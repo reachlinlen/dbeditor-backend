@@ -1,35 +1,38 @@
 package com.oo.dbeditor.employee;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Employee {
 	
 	@Id
-	private String empID;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int empId;
 	private String firstName;
 	private String lastName;
-	private Integer salary; 
+	private int salary; 
 	
 	public Employee() {
 		
 	}
 	
-	public Employee(String empID, String firstName, String lastName, Integer salary) {
+	public Employee(int empId, String firstName, String lastName, int salary) {
 		super();
-		this.empID = empID;
+		this.empId = empId;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.salary = salary;
 	}
 	
-	public String getEmpID() {
-		return empID;
+	public int getempId() {
+		return empId;
 	}
 
-	public void setEmpID(String empID) {
-		this.empID = empID;
+	public void setempId(int empId) {
+		this.empId = empId;
 	}
 
 	public String getFirstName() {
@@ -48,17 +51,12 @@ public class Employee {
 		this.lastName = lastName;
 	}
 
-	public Integer getSalary() {
+	public int getSalary() {
 		return salary;
 	}
 
-	public void setSalary(Integer salary) {
+	public void setSalary(int salary) {
 		this.salary = salary;
 	}
 
-	
-//	@Override
-//	public String toString() {
-//		return String.format("Employee[id=%s, firstName='%s', lastName='%s']", id, firstName, lastName);
-//	}
 }

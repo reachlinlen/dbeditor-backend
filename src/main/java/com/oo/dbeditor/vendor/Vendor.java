@@ -1,33 +1,36 @@
 package com.oo.dbeditor.vendor;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
 public class Vendor {
 	
 	@Id
-	private String vendID;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int vendId;
 	private String vendName;
-	private Integer vendRanking;
+	private int vendRanking;
 	
 	public Vendor() {
 		
 	}
 	
-	public Vendor(String vendID, String vendName, Integer vendRanking) {
+	public Vendor(int vendId, String vendName, int vendRanking) {
 		super();
-		this.vendID = vendID;
+		this.vendId = vendId;
 		this.vendName = vendName;
 		this.vendRanking = vendRanking;
 	}
 	
-	public String getVendID() {
-		return vendID;
+	public int getvendId() {
+		return vendId;
 	}
 
-	public void setVendID(String vendID) {
-		this.vendID = vendID;
+	public void setvendId(int vendId) {
+		this.vendId = vendId;
 	}
 
 	public String getVendName() {
@@ -42,7 +45,7 @@ public class Vendor {
 		return vendRanking;
 	}
 
-	public void setVendRanking(Integer vendRanking) {
+	public void setVendRanking(int vendRanking) {
 		this.vendRanking = vendRanking;
 	}
 }
