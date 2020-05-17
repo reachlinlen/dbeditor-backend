@@ -33,7 +33,8 @@ public class EmployeeController {
 	@GetMapping("/employee/all")
 	@CrossOrigin(origins = "http://localhost:8080")
 	public Object getTableExcel() throws IOException {
-		return empService.getFullTable();
+		return empService.getFullTableInXls();
+//		return empService.getFullTableInText();
 	}
 
 }

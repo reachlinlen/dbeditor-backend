@@ -7,6 +7,13 @@ import java.nio.file.FileSystems;
 import java.nio.file.Path;
 
 import org.springframework.stereotype.Service;
+import org.apache.poi.common.usermodel.fonts.FontCharset;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbookType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.*;
 import org.springframework.http.HttpHeaders;
@@ -38,8 +45,8 @@ public class EmployeeService {
 			}
 			return resource;
 	}
-	
-	public Object getFullTable() throws MalformedURLException {
+//Text file creation
+	public Object getFullTableInText() throws MalformedURLException {
 //Create New File
 		File tblFile = new File("Employee.txt");
 		List<Employee> tblData = empRepository.findAll();
@@ -67,4 +74,32 @@ public class EmployeeService {
 				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
 				.body(resource);
 		}
+//Xls file creation
+	public Object getFullTableInXls() throws IOException {
+		XSSFWorkbook workbook = new XSSFWorkbook();
+		XSSFSheet sheet = workbook.createSheet("Employee");
+		List<Employee> tblData = empRepository.findAll();
+		int rowNo = 0;
+		try {
+			Iterator<Employee> iterateTbl = tblData.iterator();
+			while (iterateTbl.hasNext()) {
+				Employee emp = iterateTbl.next();
+				Row row = sheet.createRow(rowNo++);
+				row.createCell(0).setCellValue(emp.getempId());
+				row.createCell(1).setCellValue(emp.getFirstName());
+				row.createCell(2).setCellValue(emp.getLastName());
+				row.createCell(3).setCellValue(emp.getSalary());
+			}
+			FileOutputStream fos = new FileOutputStream("Employee.xlsx");
+			workbook.write(fos);
+			workbook.close();
+		} catch (IOException e) {
+			e.getMessage();
+		}
+		Resource resource = loadFile("Employee.xlsx");
+		return ResponseEntity.ok()
+				.contentType(MediaType.parseMediaType("application/vnd.ms-excel"))
+				.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+				.body(resource);
+	}
 }
